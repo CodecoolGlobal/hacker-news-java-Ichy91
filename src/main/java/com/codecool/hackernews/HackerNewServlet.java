@@ -1,15 +1,19 @@
 package com.codecool.hackernews;
 
+import com.codecool.hackernews.datahandler.DataHandler;
+import com.codecool.hackernews.elements.News;
+import com.google.gson.Gson;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 @WebServlet(name = "hackerNewsServlet", urlPatterns = {"/"}, loadOnStartup = 1)
 public class HackerNewServlet extends javax.servlet.http.HttpServlet {
+    DataHandler dataHandler;
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
@@ -19,20 +23,9 @@ public class HackerNewServlet extends javax.servlet.http.HttpServlet {
         PrintWriter out = response.getWriter();
         String title = "Michael Hackson news";
 
-        URL url = new URL("https://api.hnpwa.com/v0/news/1.json");
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("GET");
+        dataHandler = new DataHandler("https://api.hnpwa.com/v0/news/1.json");
+        News[] news = dataHandler.getNews();
 
-        int responseCode = con.getResponseCode();
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer content = new StringBuffer();
-        while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
-        }
-        in.close();
-        con.disconnect();
 
         out.println(
                 "<html>\n" +
@@ -49,7 +42,6 @@ public class HackerNewServlet extends javax.servlet.http.HttpServlet {
 
                         navbar() +
 
-                        "<p>" + content + "</p>" +
                         "</body></html>"
         );
     }

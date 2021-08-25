@@ -10,3 +10,36 @@
     border: 1px solid darkred;
     padding: 3px;
 }
+
+.map {
+    position: relative;
+    display: block;
+    margin-bottom: 20px;
+    padding: 24px;
+}
+
+.card {
+    width: 6%;
+    padding: 20px 10px 20px 10px;
+    border-radius: 10px;
+    border: 2px black solid;
+    background-color: whitesmoke;
+    margin: 2px 2px 2px 2px;
+    text-align: center;
+}
+
+.top {
+    font-size: 15px;
+    margin: 0;
+}
+
+.middle {
+    font-size: 35px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.bottom {
+    font-size: 10px;
+    margin: 0;
+}
