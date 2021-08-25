@@ -4,8 +4,9 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 @WebServlet(name = "hackerNewsServlet", urlPatterns = {"/"}, loadOnStartup = 1)
 public class HackerNewServlet extends javax.servlet.http.HttpServlet {
@@ -17,6 +18,21 @@ public class HackerNewServlet extends javax.servlet.http.HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         String title = "Michael Hackson news";
+
+        URL url = new URL("https://api.hnpwa.com/v0/news/1.json");
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+
+        int responseCode = con.getResponseCode();
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+        con.disconnect();
 
         out.println(
                 "<html>\n" +
@@ -33,13 +49,7 @@ public class HackerNewServlet extends javax.servlet.http.HttpServlet {
 
                         navbar() +
 
-//                        "<ul>\n" +
-//                        "<li><b>First Name</b>: " + request.getParameter("first_name") + "\n" +
-//                        "<li><b>Last Name</b>: " + request.getParameter("last_name") + "\n" +
-//                        "</ul>\n" +
-//                        "<div class='visit'>You can serve any static content from <span class='folder'>webapp/static</span> folder, like a css file.</div>" +
-//                        "<div>Visit another servlet: <a href=\"/another\">Visit the other servlet</a></div>" +
-//                        "<div>You can provide a json file as well: <a href=\"/json\">Visit Hacker News json data example</a></div>" +
+                        "<p>" + content + "</p>" +
                         "</body></html>"
         );
     }
