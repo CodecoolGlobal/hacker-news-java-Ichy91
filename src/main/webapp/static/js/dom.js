@@ -7,6 +7,9 @@ const state = {
 let dom = {
     init: function () {
         this.initNavbar();
+        dataHandler.getData("https://api.hnpwa.com/v0/news/1.json", (response) => {
+            dom.upload(response);
+        })
     },
 
     initNavbar: function () {
@@ -14,36 +17,43 @@ let dom = {
         let newestButton = document.querySelector('#newest');
         let jobsButton = document.querySelector('#jobs');
 
-        topNewsButton.addEventListener('click', this.topNews);
-        newestButton.addEventListener('click', this.newest);
+        topNewsButton.addEventListener('click', this.news);
+        newestButton.addEventListener('click', this.news);
         jobsButton.addEventListener('click', this.jobs);
     },
 
-    topNews: function() {
-        console.log("Top News Button pressed!");
+    news: function() {
         state.topic = this.dataset.topic;
         state.maxPage = this.dataset.maxPage;
         dataHandler.getData("/json?topic=" + state.topic + "&page=" + state.actualPage, (response) => {
             dom.upload(response);
-        })
-    },
-
-    newest: function() {
-        console.log("Top Newest pressed!")
-        state.topic = this.dataset.topic;
-        state.maxPage = this.dataset.maxPage;
-        dataHandler.getData("/json?topic=" + state.topic + "&page=" + state.actualPage, (response) => {
-            dom.upload(response);
+            dom.loadPagers();
         })
     },
 
     jobs: function() {
-        console.log("Top Jobs Button pressed!")
         state.topic = this.dataset.topic;
         state.maxPage = this.dataset.maxPage;
+        dom.cleanPagers();
         dataHandler.getData("/json?topic=" + state.topic + "&page=" + state.actualPage, (response) => {
             dom.upload(response);
         })
+    },
+
+    loadPagers: function() {
+        let pagersDiv = document.querySelector("#pagers");
+        pagersDiv.innerHTML = "";
+
+        let pagers = `
+            <button type="button" class="btn btn-primary" data-previous-page="" disabled>Previous</button>
+            <button type="button" class="btn btn-success" data-next-page="">Next</button>`;
+
+        pagersDiv.insertAdjacentHTML('afterbegin', pagers);
+    },
+
+    cleanPagers: function() {
+        let pagersDiv = document.querySelector("#pagers");
+        pagersDiv.innerHTML = "";
     },
 
     upload: function (datas) {
