@@ -6,64 +6,25 @@ public class News {
     private String points;
     private String user;
     private String time;
-    private String timeAgo;
-    private String commentsCount;
+    private String time_ago;
+    private String comments_count;
     private String type;
     private String url;
     private String domain;
 
-    public News(String id, String title, String points, String user, String time, String timeAgo, String commentsCount, String type, String url, String domain) {
+    public News(String id, String title, String points, String user, String time, String time_ago, String comments_count, String type, String url, String domain) {
         this.id = id;
         this.title = title;
         this.points = points;
         this.user = user;
         this.time = time;
-        this.timeAgo = timeAgo;
-        this.commentsCount = commentsCount;
+        this.time_ago = time_ago;
+        this.comments_count = comments_count;
         this.type = type;
         this.url = url;
         this.domain = domain;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setPoints(String points) {
-        this.points = points;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public void setTimeAgo(String timeAgo) {
-        this.timeAgo = timeAgo;
-    }
-
-    public void setCommentsCount(String commentsCount) {
-        this.commentsCount = commentsCount;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public void setDomain(String domain) {
-        this.domain = domain;
-    }
 
     public String getId() {
         return id;
@@ -86,11 +47,11 @@ public class News {
     }
 
     public String getTimeAgo() {
-        return timeAgo;
+        return time_ago;
     }
 
     public String getCommentsCount() {
-        return commentsCount;
+        return comments_count;
     }
 
     public String getType() {

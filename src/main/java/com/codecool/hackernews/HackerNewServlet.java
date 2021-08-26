@@ -2,7 +2,6 @@ package com.codecool.hackernews;
 
 import com.codecool.hackernews.datahandler.DataHandler;
 import com.codecool.hackernews.elements.News;
-import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,6 +41,12 @@ public class HackerNewServlet extends javax.servlet.http.HttpServlet {
 
                         navbar() +
 
+                        "<div class=\"map\">" +
+
+                        newsToHtml(news) +
+
+                        "</div>" +
+
                         "</body></html>"
         );
     }
@@ -67,5 +72,19 @@ public class HackerNewServlet extends javax.servlet.http.HttpServlet {
                 "    </div>\n" +
                 "  </div>\n" +
                 "</nav>";
+    }
+
+    private String newsToHtml(News[] news) {
+        StringBuilder newsHtml = new StringBuilder();
+
+        for (News newsElement: news) {
+            newsHtml.append("<div class=\"folder\">");
+            newsHtml.append("<p>").append(newsElement.getTitle()).append("</p>");
+            newsHtml.append("<p>").append(newsElement.getTimeAgo()).append("</p>");
+            newsHtml.append("<p>").append(newsElement.getUrl()).append("</p>");
+            newsHtml.append("</div>");
+        }
+
+        return newsHtml.toString();
     }
 }
