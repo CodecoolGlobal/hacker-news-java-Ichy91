@@ -1,8 +1,5 @@
 package com.codecool.hackernews;
 
-import com.codecool.hackernews.datahandler.DataHandler;
-import com.codecool.hackernews.elements.News;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 @WebServlet(name = "hackerNewsServlet", urlPatterns = {"/"}, loadOnStartup = 1)
-public class HackerNewServlet extends javax.servlet.http.HttpServlet {
-    DataHandler dataHandler;
+public class MainServlet extends javax.servlet.http.HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -21,10 +17,6 @@ public class HackerNewServlet extends javax.servlet.http.HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         String title = "Michael Hackson news";
-
-        dataHandler = new DataHandler("https://api.hnpwa.com/v0/news/1.json");
-        News[] news = dataHandler.getNews();
-
 
         out.println(
                 "<html>\n" +
@@ -44,9 +36,14 @@ public class HackerNewServlet extends javax.servlet.http.HttpServlet {
 
                         "<div id=\"map\">" +
 
-                        newsToHtml(news) +
+                        "<h1>Welcome in the Hackson News</h1>" +
 
                         "</div>" +
+
+                        "<footer>\n" +
+                        "Istvan Farago\n <br>" +
+                        "farago.istvan91@gmail.com\n" +
+                        "</footer>" +
 
                         "</body></html>"
         );
@@ -61,31 +58,17 @@ public class HackerNewServlet extends javax.servlet.http.HttpServlet {
                 "    </button>\n" +
                 "    <div class=\"collapse navbar-collapse\" id=\"navbarNav\">\n" +
                 "      <ul class=\"navbar-nav\">\n" +
-                "        <li class=\"nav-item\" id=\"top-news\">\n" +
+                "        <li class=\"nav-item\" id=\"top-news\" data-topic=\"news\" data-max-page=\"10\">\n" +
                 "          <a class=\"nav-link active\" aria-current=\"page\" href=\"#\">Top news</a>\n" +
                 "        </li>\n" +
-                "        <li class=\"nav-item\" id=\"newest\">\n" +
+                "        <li class=\"nav-item\" id=\"newest\" data-topic=\"newest\" data-max-page=\"10\">\n" +
                 "          <a class=\"nav-link\" href=\"#\">Newest</a>\n" +
                 "        </li>\n" +
-                "        <li class=\"nav-item\" id=\"jobs\">\n" +
+                "        <li class=\"nav-item\" id=\"jobs\" data-topic=\"jobs\" data-max-page=\"1\">\n" +
                 "          <a class=\"nav-link\" href=\"#\">Jobs</a>\n" +
                 "      </ul>\n" +
                 "    </div>\n" +
                 "  </div>\n" +
                 "</nav>";
-    }
-
-    private String newsToHtml(News[] news) {
-        StringBuilder newsHtml = new StringBuilder();
-
-        for (News newsElement: news) {
-            newsHtml.append("<div class=\"folder\">");
-            newsHtml.append("<p>").append(newsElement.getTitle()).append("</p>");
-            newsHtml.append("<p>").append(newsElement.getTimeAgo()).append("</p>");
-            newsHtml.append("<p>").append(newsElement.getUrl()).append("</p>");
-            newsHtml.append("</div>");
-        }
-
-        return newsHtml.toString();
     }
 }

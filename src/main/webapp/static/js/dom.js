@@ -1,3 +1,9 @@
+const state = {
+  topic: null,
+  maxPage: 0,
+  actualPage: 1,
+};
+
 let dom = {
     init: function () {
         this.initNavbar();
@@ -15,18 +21,27 @@ let dom = {
 
     topNews: function() {
         console.log("Top News Button pressed!");
-        dataHandler.getData("https://api.hnpwa.com/v0/news/1.json", (response) => {
+        state.topic = this.dataset.topic;
+        state.maxPage = this.dataset.maxPage;
+        dataHandler.getData("/json?topic=" + state.topic + "&page=" + state.actualPage, (response) => {
             dom.upload(response);
         })
     },
 
     newest: function() {
         console.log("Top Newest pressed!")
+        state.topic = this.dataset.topic;
+        state.maxPage = this.dataset.maxPage;
+        dataHandler.getData("/json?topic=" + state.topic + "&page=" + state.actualPage, (response) => {
+            dom.upload(response);
+        })
     },
 
     jobs: function() {
         console.log("Top Jobs Button pressed!")
-        dataHandler.getData("https://api.hnpwa.com/v0/jobs/1.json", (response) => {
+        state.topic = this.dataset.topic;
+        state.maxPage = this.dataset.maxPage;
+        dataHandler.getData("/json?topic=" + state.topic + "&page=" + state.actualPage, (response) => {
             dom.upload(response);
         })
     },
@@ -39,11 +54,16 @@ let dom = {
         let cards = ``;
 
         for (let data of datas) {
-            cards += `<div class=folder>
-                    <p>${data.title}</p>
-                    <p>${data.time_ago}</p>
-                    <p>${data.url}</p>
-                    </div>`;
+            cards += `
+                <div class="column">
+                    <div class="card">
+                        <a href="${data.url}">${data.title}</a><br>
+                        <p>${data.time_ago}</p>`;
+
+            if (data.user != null)
+                cards += `<p>${data.user}</p>`;
+
+            cards += `</div></div>`;
         }
 
         map.insertAdjacentHTML('afterbegin', cards);
