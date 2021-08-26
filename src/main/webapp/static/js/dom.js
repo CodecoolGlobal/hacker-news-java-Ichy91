@@ -1,7 +1,7 @@
 const state = {
   topic: null,
   maxPage: 0,
-  actualPage: 1,
+  actualPage: 0,
 };
 
 let dom = {
@@ -17,24 +17,60 @@ let dom = {
         let newestButton = document.querySelector('#newest');
         let jobsButton = document.querySelector('#jobs');
 
-        topNewsButton.addEventListener('click', this.news);
-        newestButton.addEventListener('click', this.news);
-        jobsButton.addEventListener('click', this.jobs);
+        topNewsButton.addEventListener('click', this.loadNews);
+        newestButton.addEventListener('click', this.loadNews);
+        jobsButton.addEventListener('click', this.loadJobs);
     },
 
-    news: function() {
+    loadNews: function() {
         state.topic = this.dataset.topic;
         state.maxPage = this.dataset.maxPage;
+        state.actualPage = 1;
+
         dataHandler.getData("/json?topic=" + state.topic + "&page=" + state.actualPage, (response) => {
             dom.upload(response);
             dom.loadPagers();
+            dom.initPagers();
         })
     },
 
-    jobs: function() {
+    loadJobs: function() {
+        dom.cleanPagers();
+
         state.topic = this.dataset.topic;
         state.maxPage = this.dataset.maxPage;
-        dom.cleanPagers();
+        state.actualPage = 1;
+
+        dataHandler.getData("/json?topic=" + state.topic + "&page=" + state.actualPage, (response) => {
+            dom.upload(response);
+        })
+    },
+
+    initPagers: function() {
+        let previousPager = document.querySelector('#previous');
+        let nextPager = document.querySelector('#next');
+
+        previousPager.addEventListener('click', this.loadPreviousPage);
+        nextPager.addEventListener('click', this.loadNextPage);
+    },
+
+    loadPreviousPage: function() {
+        state.actualPage -= 1;
+
+        if (state.actualPage <= 1) document.querySelector('#previous').disabled = true;
+        if (state.actualPage < state.maxPage) document.querySelector('#next').disabled = false;
+
+        dataHandler.getData("/json?topic=" + state.topic + "&page=" + state.actualPage, (response) => {
+            dom.upload(response);
+        })
+    },
+
+    loadNextPage: function() {
+        state.actualPage += 1;
+
+        if (state.actualPage > 1) document.querySelector('#previous').disabled = false;
+        if (state.actualPage >= state.maxPage) document.querySelector('#next').disabled = true;
+
         dataHandler.getData("/json?topic=" + state.topic + "&page=" + state.actualPage, (response) => {
             dom.upload(response);
         })
@@ -45,8 +81,8 @@ let dom = {
         pagersDiv.innerHTML = "";
 
         let pagers = `
-            <button type="button" class="btn btn-primary" data-previous-page="" disabled>Previous</button>
-            <button type="button" class="btn btn-success" data-next-page="">Next</button>`;
+            <button id="previous" type="button" class="btn btn-primary" disabled>Previous</button>
+            <button id="next" type="button" class="btn btn-success">Next</button>`;
 
         pagersDiv.insertAdjacentHTML('afterbegin', pagers);
     },
@@ -57,7 +93,6 @@ let dom = {
     },
 
     upload: function (datas) {
-        console.log(datas);
         let map = document.querySelector('#map');
         map.innerHTML = '';
 
