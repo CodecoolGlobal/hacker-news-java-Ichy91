@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "JsonServlet", urlPatterns = "/json", loadOnStartup = 3)
+@WebServlet(name = "JsonServlet", urlPatterns = "/jobs", loadOnStartup = 3)
 public class JsonServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

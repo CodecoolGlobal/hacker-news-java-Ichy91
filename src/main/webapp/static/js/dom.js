@@ -1,5 +1,3 @@
-import {dataHandler} from "./dataHandler.js";
-
 let dom = {
     init: function () {
         this.initNavbar();
@@ -16,7 +14,10 @@ let dom = {
     },
 
     topNews: function() {
-        console.log("Top News Button pressed!")
+        console.log("Top News Button pressed!");
+        dataHandler.getData("https://api.hnpwa.com/v0/news/1.json", (response) => {
+            dom.upload(response);
+        })
     },
 
     newest: function() {
@@ -25,7 +26,28 @@ let dom = {
 
     jobs: function() {
         console.log("Top Jobs Button pressed!")
+        dataHandler.getData("https://api.hnpwa.com/v0/jobs/1.json", (response) => {
+            dom.upload(response);
+        })
     },
+
+    upload: function (datas) {
+        console.log(datas);
+        let map = document.querySelector('#map');
+        map.innerHTML = '';
+
+        let cards = ``;
+
+        for (let data of datas) {
+            cards += `<div class=folder>
+                    <p>${data.title}</p>
+                    <p>${data.time_ago}</p>
+                    <p>${data.url}</p>
+                    </div>`;
+        }
+
+        map.insertAdjacentHTML('afterbegin', cards);
+    }
 };
 
 dom.init();
