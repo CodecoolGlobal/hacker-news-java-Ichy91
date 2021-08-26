@@ -1,3 +1,9 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 .visit {
     color: blue;
     font-weight: bolder;
@@ -9,4 +15,50 @@
     font-style: italic;
     border: 1px solid darkred;
     padding: 3px;
+}
+
+#map {
+    position: relative;
+    display: block;
+    margin-bottom: 20px;
+    padding: 24px;
+}
+
+.column {
+    float: left;
+    width: 33%;
+    padding: 20px;
+}
+
+/* Style the counter cards */
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    height: 200px;
+    padding: 30px;
+    color: aliceblue;
+    background-color: darkslategray !important;
+}
+
+/* Responsive columns - one column layout (vertical) on small screens */
+@media screen and (max-width: 600px) {
+    .column {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+    }
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: black;
+    color: whitesmoke;
+    text-align: center;
+}
+
+#pagers {
+    white-space: nowrap;
+    margin-right: 3%;
 }
