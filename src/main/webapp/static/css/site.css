@@ -57,3 +57,8 @@ footer {
     color: whitesmoke;
     text-align: center;
 }
+
+#pagers {
+    white-space: nowrap;
+    margin-right: 3%;
+}
