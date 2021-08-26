@@ -30,7 +30,7 @@ public class AnotherServlet extends HttpServlet {
                 "<html>\n" +
                         "  <head>" +
                         "    <title>Another page</title>" +
-                        "    <script src='/static/js/main.js'></script>" +
+                        "    <script src='/static/js/dom.js'></script>" +
                         "  </head>\n" +
                         "<body>\n" +
                         "  <h1>Hello CodeCooler!</h1>" +
