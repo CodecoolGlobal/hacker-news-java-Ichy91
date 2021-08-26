@@ -13,12 +13,6 @@ public class DataHandler {
         this.url = url;
     }
 
-//    public News[] getNews() throws IOException {
-//        Gson gson = new Gson();
-//
-//        return gson.fromJson(String.valueOf(getData()), News[].class);
-//    }
-
     public StringBuffer getData() throws IOException {
         URL url = new URL(this.url);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -31,6 +25,7 @@ public class DataHandler {
         while ((inputLine = in.readLine()) != null) {
             content.append(inputLine);
         }
+
         in.close();
         con.disconnect();
 
