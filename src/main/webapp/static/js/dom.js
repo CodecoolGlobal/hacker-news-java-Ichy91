@@ -1,3 +1,5 @@
+import {dataHandler} from "./dataHandler.js";
+
 const state = {
   topic: null,
   maxPage: 0,

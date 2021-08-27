@@ -1,4 +1,4 @@
-let dataHandler = {
+export let dataHandler = {
     getData: function (url, callback) {
         fetch(url, {
             method: 'GET',
